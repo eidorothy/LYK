@@ -22,7 +22,7 @@ public class SceneMangerEx
 
         if (SceneManager.GetActiveScene().name == sceneName)
             return;
-            
+
         SceneManager.LoadScene(sceneName);
     }
 

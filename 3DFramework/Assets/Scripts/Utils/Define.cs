@@ -7,8 +7,14 @@ public class Define
     public enum Scene
     {
         None,
+        StartScene,
         SampleScene,
-        LobbyScene,
-        BattleScene,
     }
+
+    public enum ObjectType
+	{
+		None,
+		Player,
+		Enemy
+	}
 }

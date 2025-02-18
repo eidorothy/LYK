@@ -11,7 +11,7 @@ public class Managers : MonoBehaviour
                 s_instance = FindFirstObjectByType<Managers>();
                 if (s_instance == null)
                 {
-                    GameObject go = new GameObject("Managers");
+                    GameObject go = new GameObject("@Managers");
                     s_instance = go.AddComponent<Managers>();
                     DontDestroyOnLoad(go);
                 }
@@ -20,16 +20,21 @@ public class Managers : MonoBehaviour
         }
     }
 
-    // private InputManager _input;
+    private SceneMangerEx _scene;
+    private UGSManager _ugs;
+    private ResourceManager _resource;
+    private GameManager _game;
 
-    // public static InputManager Input => Instance._input ??= new InputManager();
+    public static SceneMangerEx Scene => Instance._scene ??= new SceneMangerEx();
+    public static UGSManager UGS => Instance._ugs ??= new UGSManager();
+    public static ResourceManager Resource => Instance._resource ??= new ResourceManager();
+    public static GameManager Game => Instance._game ??= new GameManager();
 
 
     void OnDestroy()
     {
         Clear();
     }
-
 
     void Clear()
     {
