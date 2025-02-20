@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneMangerEx
 {
     // 외부에서 지금 어떤 씬인지 궁금해 하는 경우가 있어서 지금 어떤 씬인지 제공
+    public BaseScene CurrentScene { get { return GameObject.FindObjectOfType<BaseScene>(); } }
 
     // 씬 타입 - string
     string GetSceneName(Define.Scene sceneType)

@@ -20,6 +20,9 @@ public class ResourceManager
             return null;
         }
 
-        return Object.Instantiate(prefab, parent);
+        GameObject go = Object.Instantiate(prefab, parent);
+		go.name = prefab.name;
+
+		return go;
     }
 }

@@ -15,6 +15,6 @@ public class Define
 	{
 		None,
 		Player,
-		Enemy
+        Bullet,
 	}
 }

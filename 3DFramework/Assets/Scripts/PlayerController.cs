@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private PlayerInput _playerInput;
+    
     private InputAction _moveAction;
+    private InputAction _attackAction;
 
     private Vector2 _moveInput;
 
@@ -18,12 +20,18 @@ public class PlayerController : MonoBehaviour
 
         _moveAction.performed += OnMove;    // 이동 입력 감지
         _moveAction.canceled += OnMoveStop; // 이동 중지 감지
+
+        _attackAction = _playerInput.actions["Attack"];
+
+        _attackAction.performed += OnAttack;
     }
 
     void OnDisable()
     {
         _moveAction.performed -= OnMove;
         _moveAction.canceled -= OnMoveStop;
+
+        _attackAction.performed -= OnAttack;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -34,6 +42,11 @@ public class PlayerController : MonoBehaviour
     public void OnMoveStop(InputAction.CallbackContext context)
     {
         _moveInput = Vector2.zero;
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        GameObject bullet = Managers.Game.Spawn(Define.ObjectType.Bullet, "Bullet");
     }
 
     void Update()

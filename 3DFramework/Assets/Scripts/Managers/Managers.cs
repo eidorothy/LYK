@@ -13,6 +13,7 @@ public class Managers : MonoBehaviour
                 {
                     GameObject go = new GameObject("@Managers");
                     s_instance = go.AddComponent<Managers>();
+
                     DontDestroyOnLoad(go);
                 }
             }
@@ -24,11 +25,13 @@ public class Managers : MonoBehaviour
     private UGSManager _ugs;
     private ResourceManager _resource;
     private GameManager _game;
+    private PoolManager _pool;
 
     public static SceneMangerEx Scene => Instance._scene ??= new SceneMangerEx();
     public static UGSManager UGS => Instance._ugs ??= new UGSManager();
     public static ResourceManager Resource => Instance._resource ??= new ResourceManager();
     public static GameManager Game => Instance._game ??= new GameManager();
+    public static PoolManager Pool => Instance._pool ??= new PoolManager().Init();
 
 
     void OnDestroy()
@@ -39,11 +42,6 @@ public class Managers : MonoBehaviour
     void Clear()
     {
         // 매니저들 정리 작업
-
-    }
-
-    void Update()
-    {
-
+        Pool.Clear();
     }
 }

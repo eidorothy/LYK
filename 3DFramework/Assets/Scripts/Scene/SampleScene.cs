@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SampleScene : BaseScene
 {
+    [SerializeField]
+    GameObject _bulletPrefab;
+
     protected override void Init()
     {
         base.Init();
@@ -20,7 +23,7 @@ public class SampleScene : BaseScene
         }
         player.GetOrAddComponent<PlayerController>();
 
-        // 플레이어 위치 정해 주기
+        Managers.Pool.CreatePool(_bulletPrefab, 10);
 
         // BGM
 
