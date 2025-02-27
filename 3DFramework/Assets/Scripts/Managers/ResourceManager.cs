@@ -20,6 +20,11 @@ public class ResourceManager
             return null;
         }
 
+        if (prefab.GetComponent<Poolable>() != null)
+        {
+            return Managers.Pool.Pop(prefab, parent).gameObject;
+        }
+
         GameObject go = Object.Instantiate(prefab, parent);
 		go.name = prefab.name;
 

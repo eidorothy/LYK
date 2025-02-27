@@ -27,11 +27,6 @@ public class GameManager
             return null;
         }
 
-        if (go.GetComponent<Poolable>() != null)
-        {
-            return Managers.Pool.Pop(go, parent).gameObject;
-        }
-
         switch (type)
         {
             case Define.ObjectType.Player:

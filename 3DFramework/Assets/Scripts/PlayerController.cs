@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +7,7 @@ public class PlayerController : MonoBehaviour
     
     private InputAction _moveAction;
     private InputAction _attackAction;
+    private InputAction _shootAction;
 
     private Vector2 _moveInput;
 
@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
         _attackAction = _playerInput.actions["Attack"];
 
         _attackAction.performed += OnAttack;
+
+        _shootAction = _playerInput.actions["Shoot"];
+        _shootAction.performed += OnShoot;
     }
 
     void OnDisable()
@@ -32,6 +35,8 @@ public class PlayerController : MonoBehaviour
         _moveAction.canceled -= OnMoveStop;
 
         _attackAction.performed -= OnAttack;
+
+        _shootAction.performed -= OnShoot;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -47,6 +52,44 @@ public class PlayerController : MonoBehaviour
     public void OnAttack(InputAction.CallbackContext context)
     {
         GameObject bullet = Managers.Game.Spawn(Define.ObjectType.Bullet, "Bullet");
+    }
+
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        int layerMask = LayerMask.GetMask("Wall", "Monster");       // wall이랑 monster에만 ray 적중
+
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit hit;
+        float maxDistance = 100.0f;     // 최대 사거리
+
+        Vector3 endPoint;           // 끝점
+        bool isHit = false;
+
+        /* Ray 경로 위의 모든 오브젝트 감지
+        RaycastHit[] hits = Physics.RaycastAll(ray, maxDistance);
+        foreach (RaycastHit h in hits)
+        {
+            if (h.transform.gameObject.layer == LayerMask.NameToLayer("Wall"))
+            {
+                endPoint = h.point;
+                isHit = true;
+                break;
+            }
+        }
+        */
+
+        //if (Physics.Raycast(ray, out hit, maxDistance, layerMask))
+        if (Physics.Raycast(ray, out hit))
+        {
+            endPoint = hit.point;
+            isHit = true;
+        }
+        else
+        {
+            endPoint = ray.origin + ray.direction * maxDistance;
+        }
+
+        Debug.DrawLine(ray.origin, endPoint, isHit ? Color.red : Color.yellow, 2.0f);
     }
 
     void Update()

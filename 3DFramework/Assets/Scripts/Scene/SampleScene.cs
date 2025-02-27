@@ -25,6 +25,7 @@ public class SampleScene : BaseScene
 
         Managers.Pool.CreatePool(_bulletPrefab, 10);
 
+        Camera.main.gameObject.GetOrAddComponent<CameraController>().SetTarget(player);
         // BGM
 
         // UI 같은 것들 미리 세팅
