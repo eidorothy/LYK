@@ -13,8 +13,12 @@ public class PlayerController : MonoBehaviour
 
     private float _moveSpeed = 5f;
 
+    private Animator _animator;
+
     void Awake()
     {
+        _animator = GetComponent<Animator>();
+
         _playerInput = GetComponent<PlayerInput>();
         _moveAction = _playerInput.actions["Move"];
 
@@ -94,8 +98,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector3 dir = new Vector3(_moveInput.x, 0, _moveInput.y);
-        transform.position += dir * _moveSpeed * Time.deltaTime;
+        Vector3 direction = new Vector3(_moveInput.x, 0, _moveInput.y);
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10.0f);
+
+            transform.position += direction * _moveSpeed * Time.deltaTime;
+        }
+
+        _animator.SetFloat("Speed", direction.magnitude);
+
         
         /*
         if (Input.GetKey(KeyCode.W))
