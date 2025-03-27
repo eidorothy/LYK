@@ -185,11 +185,6 @@
                     "isOR": false
                 }
             ]
-        },
-        {
-            "name": "Mobile",
-            "bindingGroup": "Mobile",
-            "devices": []
         }
     ]
 }

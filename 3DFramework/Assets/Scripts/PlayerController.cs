@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     private PlayerInput _playerInput;
     
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         _playerInput = GetComponent<PlayerInput>();
+        _playerInput.SwitchCurrentControlScheme("PC", Keyboard.current);
         _moveAction = _playerInput.actions["Move"];
 
         _moveAction.performed += OnMove;    // 이동 입력 감지
@@ -35,31 +37,49 @@ public class PlayerController : MonoBehaviour
 
     void OnDisable()
     {
-        _moveAction.performed -= OnMove;
-        _moveAction.canceled -= OnMoveStop;
+        if (IsOwner) {
+            _moveAction.performed -= OnMove;
+            _moveAction.canceled -= OnMoveStop;
 
-        _attackAction.performed -= OnAttack;
+            _attackAction.performed -= OnAttack;
 
-        _shootAction.performed -= OnShoot;
+            _shootAction.performed -= OnShoot;
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (!IsOwner) {
+            return;
+        }
+
         _moveInput = context.ReadValue<Vector2>();
     }
 
     public void OnMoveStop(InputAction.CallbackContext context)
     {
+        if (!IsOwner) {
+            return;
+        }
+
         _moveInput = Vector2.zero;
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        if (!IsOwner) {
+            return;
+        }
+
         GameObject bullet = Managers.Game.Spawn(Define.ObjectType.Bullet, "Bullet");
     }
 
     public void OnShoot(InputAction.CallbackContext context)
     {
+        if (!IsLocalPlayer) {
+            return;
+        }
+
         int layerMask = LayerMask.GetMask("Wall", "Monster");       // wall이랑 monster에만 ray 적중
 
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -98,6 +118,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // if (!IsOwner) {
+        //     return;
+        // }
+
         Vector3 direction = new Vector3(_moveInput.x, 0, _moveInput.y);
 
         if (direction != Vector3.zero)
