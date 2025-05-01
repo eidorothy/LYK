@@ -1,0 +1,68 @@
+﻿{
+    "recipes": [
+        {
+            "recipeID": "rollcake_wood",
+            "displayName": "롤케이크 나무조각",
+            "buildingID": "lumberjack_house",
+            "outputItemID": "wood",
+            "outputItemAmount": 3,
+            "coinCost": 30,
+            "timeCost": 10,
+            "iconPath": "",
+            "inputResources": []
+        },
+        {
+            "recipeID": "rollcake_wood_bundle",
+            "displayName": "롤케이크 나무 묶음",
+            "buildingID": "lumberjack_house",
+            "outputItemID": "wood",
+            "outputItemAmount": 9,
+            "coinCost": 90,
+            "timeCost": 300,
+            "iconPath": "",
+            "inputResources": []
+        },
+        {
+            "recipeID": "rollcake_wood_pile",
+            "displayName": "롤케이크 나무 더미",
+            "buildingID": "lumberjack_house",
+            "outputItemID": "wood",
+            "outputItemAmount": 20,
+            "coinCost": 200,
+            "timeCost": 5000,
+            "iconPath": "",
+            "inputResources": []
+        },
+        {
+            "recipeID": "rollcake_wood_haul",
+            "displayName": "꽉 찬 롤케이크 나무 더미",
+            "buildingID": "lumberjack_house",
+            "outputItemID": "wood",
+            "outputItemAmount": 35,
+            "coinCost": 350,
+            "timeCost": 10000,
+            "iconPath": "",
+            "inputResources": []
+        },
+        {
+            "recipeID": "smithy_robust_axe",
+            "displayName": "단단 도끼",
+            "buildingID": "smithy_house",
+            "outputItemID": "robust_axe",
+            "outputItemAmount": 1,
+            "coinCost": 0,
+            "timeCost": 30,
+            "iconPath": "",
+            "inputResources": [
+                {
+                    "itemID": "wood",
+                    "amount": 3
+                },
+                {
+                    "itemID": "sugar",
+                    "amount": 3
+                }
+            ]
+        }
+    ]
+}

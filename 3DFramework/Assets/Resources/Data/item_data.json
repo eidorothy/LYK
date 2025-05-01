@@ -1,0 +1,32 @@
+﻿{
+    "items": [
+        {
+            "itemID": "wood",
+            "displayName": "롤케이크 나무조각",
+            "type": "material",
+            "description": "나무 조각이다.",
+            "iconPath": ""
+        },
+        {
+            "itemID": "jellybean",
+            "displayName": "젤리빈",
+            "type": "material",
+            "description": "젤리빈이다.",
+            "iconPath": ""
+        },
+        {
+            "itemID": "sugar",
+            "displayName": "각설탕 조각",
+            "type": "material",
+            "description": "각설탕 조각이다.",
+            "iconPath": ""
+        },
+        {
+            "itemID": "robust_axe",
+            "displayName": "단단 도끼",
+            "type": "goods",
+            "description": "짱단단한 도끼~",
+            "iconPath": ""
+        }
+    ]
+}
