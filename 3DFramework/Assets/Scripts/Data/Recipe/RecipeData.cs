@@ -5,9 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class RecipeData
 {
+    [RecipeIDAttribute]
     public string recipeID;
     public string displayName;
+    [BuildingIDAttribute]
     public string buildingID;
+    [ItemIDAttribute]
     public string outputItemID;
     public int outputItemAmount;
     public int coinCost;
@@ -23,6 +26,7 @@ public class RecipeData
 [System.Serializable]
 public class ResourceCost
 {
+    [ItemIDAttribute]
     public string itemID;
     public int amount;
 }
