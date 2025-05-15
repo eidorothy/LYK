@@ -15,13 +15,13 @@ public class UI_Network : NetworkBehaviour  // 네트워크 프로퍼티에 접�
 
     void Awake()
     {
-        _hostButton.onClick.AddListener(()=> {
-            NetworkManager.Singleton.StartHost();
-        });
+        // _hostButton.onClick.AddListener(()=> {
+        //     NetworkManager.Singleton.StartHost();
+        // });
 
-        _clientButton.onClick.AddListener(()=> {
-            NetworkManager.Singleton.StartClient();
-        });
+        // _clientButton.onClick.AddListener(()=> {
+        //     NetworkManager.Singleton.StartClient();
+        // });
     }
 
     void Update()
