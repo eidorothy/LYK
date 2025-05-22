@@ -6,31 +6,42 @@ public static class Inventory
 {
     private static Dictionary<string, int> _itemCounts = new Dictionary<string, int>();
 
-    public static void AddItem(string itemName, int count = 1)
+    public static void Add(string itemID, int count = 1)
     {
-        if (!_itemCounts.ContainsKey(itemName))
+        if (!_itemCounts.ContainsKey(itemID))
         {
-            _itemCounts[itemName] = 0;
+            _itemCounts[itemID] = 0;
         }
 
-        _itemCounts[itemName] += count;
+        _itemCounts[itemID] += count;
+        OnChanged?.Invoke(itemID);        // UI에 알림
     }
 
-    public static int GetAmount(string itemID)
+    public static int Get(string itemID)
     {
         return _itemCounts.TryGetValue(itemID, out int count) ? count : 0;
     }
 
     public static bool HasEnough(string itemID, int required)
     {
-        return GetAmount(itemID) >= required;
+        return Get(itemID) >= required;
     }
 
-    public static bool RemoveItem(string itemID, int count = 1)
+    public static void Consume(string itemID, int count = 1)
     {
         if (!HasEnough(itemID, count))
-            return false;
+            return;
         _itemCounts[itemID] -= count;
-        return true;
+        /*
+        if (_itemCounts[itemID] <= 0)
+        {
+            _itemCounts.Remove(itemID);
+        }
+        */
+        OnChanged?.Invoke(itemID);        // UI에 알림
     }
+
+    public static event System.Action<string> OnChanged;
+
+    public static IEnumerable<string> GetAll() => _itemCounts.Keys;
 }
