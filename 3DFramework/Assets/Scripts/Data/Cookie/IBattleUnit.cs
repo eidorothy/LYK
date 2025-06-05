@@ -4,23 +4,57 @@ using UnityEngine;
 
 public interface IBattleUnit
 {
-    float AttackCooltime { get; }          // 데이터화된 평타 쿨타임 (3초)
-    float AttackCurCooltime { get; set; }  // 런타임에서 현재 평타 쿨타임 (3초 -> 0초 -> 평타 -> 3초)
-    // TODO : 평타 타입 (근거리냐, 원거리냐)
-    // TODO : 평타 사거리 (가까이 다가가서 공격해야 하니까)
+    // 기본 정보
+    string UnitID { get; }
+    string DisplayName { get; }
+    Vector3 Position { get; set; }
 
-    // TODO : 스킬 관련 (데이터에 있는 찐 쿨타임(쿨타임:3초), 현재 쿨타임)
+    // 전투 스탯
+    int CurrentHP { get; set; }             // 현재 HP
+    int MaxHP { get; }
+    int AttackPower { get; }
+    int DefensePower { get; }
+    float CriticalRate { get; }
+    float CriticalDamage { get; }
 
-    int CurrentHP { get; set; } // 현재 HP
-    int MaxHP { get; }          // 최대 HP
+    // 평타 관련
+    float AttackCurCooltime { get; set; }   // 현재 평타 쿨타임
+    float AttackCooltime { get; }           // 데이터상 평타 쿨타임
+    AttackType AttackType { get; }
+    float AttackRange { get; }
+    TargetPriority AttackTargetPriority { get; }    // 평타 공격 대상 우선순위
 
-    int AttackPower { get; }    // 공격력
-    int DefensePower { get; }   // 방어력
-                                // TODO : 치명타 확률, 치명타 피해
+    // 스킬 관련
+    SkillData SkillData { get; }
+    float SkillCurCooltime { get; set; }    // 현재 스킬 쿨타임
 
-    void Init();                // 초기화 함수
+    // 이동 관련
+    float MoveSpeed { get; }
+    bool IsMoving { get; set; }
 
-    void TakeDamge(int damage); // 데미지 받는 함수
-    void TryNormalAttack(IBattleUnit target);           // 평타를 시도하는 함수
-    void TrySkillAttack(List<IBattleUnit> targets);     // 스킬을 시도하는 함수
+    // 상태
+    bool IsAlive { get; }
+
+
+    // 초기화
+    void Initialize();
+
+    // 전투 행동
+    bool TryNormalAttack(IBattleUnit target, System.Random battleRandom);
+    bool TrySkillAttack(List<IBattleUnit> targets, System.Random battleRandom);
+    void TakeDamage(int damage, bool isCritical = false);
+    void TakeHeal(int amount);
+
+    // 타겟팅
+    bool IsInAttackRange(IBattleUnit target);
+    bool IsInSkillRange(IBattleUnit target);
+
+    // 업데이트
+    void UpdateCooltime(float deltaTime);
+    
+    // 이벤트
+    System.Action<IBattleUnit> OnDead { get; set; }
+    System.Action<IBattleUnit, int, bool> OnDamaged { get; set; } // unit, damage, isCritical
+    System.Action<IBattleUnit, IBattleUnit, int, bool> OnAttack { get; set; } // attacker, target, damage, isCritical
+    System.Action<IBattleUnit, SkillData> OnSkillUsed { get; set; }
 }
