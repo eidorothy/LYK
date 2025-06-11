@@ -18,6 +18,7 @@ public enum AttackType
 
 public enum TargetPriority
 {
+    None,
     Nearest,    // 가장 가까운 적
     Farthest,   // 가장 먼 적
     LowestHP,   // HP가 가장 낮은 적

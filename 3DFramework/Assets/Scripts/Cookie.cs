@@ -45,7 +45,7 @@ public class Cookie : MonoBehaviour, IBattleUnit
         AttackCurCooltime = 0f;
         SkillCurCooltime = SkillData.cooltime;
         IsMoving = false;
-        Position = transform.position;
+        //Position = transform.position;
     }
 
     public void SetCookieData(CookieData data)
