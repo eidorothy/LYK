@@ -105,11 +105,11 @@ public class Cookie : MonoBehaviour, IBattleUnit
 
         int finalDamage = Mathf.Max(0, (int)damage - target.DefensePower);  // 방어력 반영, 구하는 공식 바꿔도 됨
 
-        target.TakeDamage(finalDamage, isCritical);
-        AttackCurCooltime = AttackCooltime;
-
         string criText = isCritical ? " [크리티컬!]" : "";
         Debug.Log($"{DisplayName}이(가) {target.DisplayName} 공격! 데미지: {finalDamage}{criText} (적 HP: {target.CurrentHP}/{target.MaxHP})");
+
+        target.TakeDamage(finalDamage, isCritical);
+        AttackCurCooltime = AttackCooltime;
 
         OnAttack?.Invoke(this, target, finalDamage, isCritical);
         return true;
@@ -139,11 +139,12 @@ public class Cookie : MonoBehaviour, IBattleUnit
 
                 int finalDamage = Mathf.Max(0, (int)damage - target.DefensePower);  // 방어력 반영, 구하는 공식 바꿔도 됨
 
-                target.TakeDamage(finalDamage, isCritical);
-
+                int currentHP = Mathf.Max(0, target.CurrentHP - finalDamage);
                 string criText = isCritical ? " [크리티컬!]" : "";
-                Debug.Log($"{DisplayName}이(가) {target.DisplayName} 스킬 공격! 데미지: {finalDamage}{criText} (적 HP: {target.CurrentHP}/{target.MaxHP})");
+                
+                Debug.Log($"{DisplayName}이(가) {target.DisplayName} 스킬 공격! 데미지: {finalDamage}{criText} (적 HP: {currentHP}/{target.MaxHP})");
 
+                target.TakeDamage(finalDamage, isCritical);
             }
             else if (SkillData.skillType == SkillType.Heal)
             {

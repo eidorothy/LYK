@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40f631a6efdebaa45a39c3e574aad6fc, type: 3}
+  m_Name: AngelCookie
+  m_EditorClassIdentifier: 
+  cookieID: angel_cookie
+  displayName: "\uCC9C\uC0AC\uB9DB \uCFE0\uD0A4"
+  baseHP: 300
+  baseAttackPower: 5
+  baseDefensePower: 1
+  attackCooltime: 1000
+  attackRange: 1
+  attackType: 0
+  targetPriority: 1
+  moveSpeed: 5
+  baseCriticalRate: 0.1
+  baseCriticalDamage: 1.5
+  skillData: {fileID: 11400000, guid: 82142a8f19878564383d002dc93a2b8a, type: 2}
+  prefab: {fileID: 1101025030228033768, guid: 7f3ef4f23240f294ab2de6a4e06cfc33, type: 3}
+  icon: {fileID: 0}

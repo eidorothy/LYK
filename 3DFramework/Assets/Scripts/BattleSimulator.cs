@@ -48,7 +48,6 @@ public class BattleSimulator : MonoBehaviour
         }
 
         _isBattleActive = true;
-        StartCoroutine(BattleLoop());
     }
 
     private void InitTeamPosition(List<IBattleUnit> team, bool isPlayerTeam)
@@ -63,17 +62,15 @@ public class BattleSimulator : MonoBehaviour
         }
     }
 
-    private IEnumerator BattleLoop()
+    void FixedUpdate()
     {
-        while (_isBattleActive && !IsBattleOver())
-        {
-            _battleTime += TIMESTAMP;
+        if (!_isBattleActive || IsBattleOver())
+            return;
 
-            ProcessTeamActions(_playerTeam, _enemyTeam);
-            ProcessTeamActions(_enemyTeam, _playerTeam);
+        _battleTime += Time.fixedDeltaTime;         // 0.02f (50 fps)
 
-            yield return new WaitForSeconds(TIMESTAMP);
-        }
+        ProcessTeamActions(_playerTeam, _enemyTeam);
+        ProcessTeamActions(_enemyTeam, _playerTeam);
     }
 
     private void ProcessTeamActions(List<IBattleUnit> team, List<IBattleUnit> enemyTeam)
