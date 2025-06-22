@@ -17,7 +17,7 @@ MonoBehaviour:
   baseHP: 300
   baseAttackPower: 5
   baseDefensePower: 1
-  attackCooltime: 1000
+  attackCooltime: 1
   attackRange: 1
   attackType: 0
   targetPriority: 1

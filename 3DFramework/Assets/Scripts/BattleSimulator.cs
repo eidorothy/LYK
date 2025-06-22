@@ -22,7 +22,7 @@ public class BattleSimulator : MonoBehaviour
     {
         _seed = seed == -1 ? UnityEngine.Random.Range(0, int.MaxValue) : seed;
         _randomGenerator = new System.Random(_seed);
-        _battleTime = 0f;
+        _battleTime = Time.fixedDeltaTime;         // 0.02f (50 fps)
 
         Debug.Log($"시드값 : {_seed}");
     }
@@ -66,8 +66,6 @@ public class BattleSimulator : MonoBehaviour
     {
         if (!_isBattleActive || IsBattleOver())
             return;
-
-        _battleTime += Time.fixedDeltaTime;         // 0.02f (50 fps)
 
         ProcessTeamActions(_playerTeam, _enemyTeam);
         ProcessTeamActions(_enemyTeam, _playerTeam);

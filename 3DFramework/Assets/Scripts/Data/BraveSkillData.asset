@@ -15,7 +15,7 @@ MonoBehaviour:
   skillID: attack1
   skillName: "\uC6A9\uCFE0\uC758 \uACF5\uACA9"
   skillDescription: "\uC6A9\uCFE0\uC758 \uACF5\uACA9\uC774\uB2E4"
-  cooltime: 5000
+  cooltime: 4
   skillType: 0
   skillTargetType: 0
   targetPriority: 0
