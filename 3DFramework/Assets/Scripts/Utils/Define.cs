@@ -44,6 +44,24 @@ public enum SkillTargetType
 
 // TODO : 도트 뎀, 독 데미지, 실드, 지속 회복, 이속 증가 등등 효과 관련 정의
 
+public enum MovementState
+{
+    Spawning,       // 스폰 중 (페이드인 등)
+    Chasing,        // 추적 중 (적을 향해 이동)
+    Attacking,      // 전투 중 (평타/스킬 실행)
+    Dead,           // 사망
+}
+
+public enum AnimationState      // 왕국에서도 쓸 거라면,, 적절하게
+{
+    Idle,
+    Run,
+    Attack,
+    Skill,
+    Hit,
+    Dead,
+}
+
 public class Define
 {
     public enum Scene

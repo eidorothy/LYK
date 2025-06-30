@@ -27,6 +27,9 @@ public class CookieData : ScriptableObject
     [Header("스킬 데이터")]
     public SkillData skillData;
 
+    [Header("평타 애니메이션")]
+    public AnimationInfo attackAnimationInfo;    // 평타 애니메이션 정보
+
     public GameObject prefab;
     public Sprite icon;
 }

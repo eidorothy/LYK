@@ -22,5 +22,6 @@ public class SkillData : ScriptableObject
     [Header("스킬 데미지")]
     public float damageMultiplier = 1.0f;      // 데미지 배율 (기본값: 1.0), 쿠키 공격력 기반으로 계산됨
 
-    //[Header("애니메이션")]
+    [Header("애니메이션")]
+    public AnimationInfo animationInfo;        // 스킬 애니메이션 정보
 }
