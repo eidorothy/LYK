@@ -59,6 +59,11 @@ public class BattleSimulator : MonoBehaviour
         {
             Vector3 position = new Vector3(offset, (i - 2) * spacing, 0);
             team[i].Position = position;
+
+            if (team[i] is Cookie cookie)
+            {
+                cookie.animController.SetFacingBack(isPlayerTeam);
+            }
         }
     }
 
@@ -83,11 +88,21 @@ public class BattleSimulator : MonoBehaviour
             if (target == null)
                 continue;
 
+            // 만약 내가 스턴이라면 continue
+
+            // 만약 내가 지금 도트힐, 도트딜 중이라면 => 함수 호출
+
             // 사거리 체크, 만약 사거리가 안 됐다면 이동
             if (!unit.IsInAttackRange(target))
             {
                 MoveToTarget(unit, target);
                 continue;
+            }
+
+            // 사거리 안쪽으로 이동헀다면, 애니메이션 멈춤
+            if (unit.IsMoving)
+            {
+                StopMoving(unit);
             }
 
             // 스킬을 먼저 사용
@@ -115,7 +130,24 @@ public class BattleSimulator : MonoBehaviour
         float moveDistance = unit.MoveSpeed * TIMESTAMP;
 
         unit.Position += direction * moveDistance;
-        unit.IsMoving = true;
+
+        if (!unit.IsMoving)
+        {
+            unit.IsMoving = true;
+            if (unit is Cookie cookie)
+            {
+                cookie.animController.PlayRunAnimation(cookie.CData);
+            }
+        }
+    }
+
+    private void StopMoving(IBattleUnit unit)
+    {
+        unit.IsMoving = false;
+        if (unit is Cookie cookie)
+        {
+            cookie.animController.PlayIdleAnimation(cookie.CData);
+        }
     }
 
     private IBattleUnit FindAttackTarget(IBattleUnit attacker, List<IBattleUnit> enemyTeam, TargetPriority targetPriority = TargetPriority.None)

@@ -1380,7 +1380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testCookies:
-  - {fileID: 11400000, guid: 094b099416cddf64eaf820160154313c, type: 2}
+  - {fileID: 11400000, guid: e3548b5d48cdfb640b352521f7062bb2, type: 2}
   - {fileID: 11400000, guid: e3548b5d48cdfb640b352521f7062bb2, type: 2}
   battleSimulator: {fileID: 735271894}
   useCustomSeed: 0

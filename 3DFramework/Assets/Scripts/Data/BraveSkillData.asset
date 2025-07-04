@@ -21,3 +21,10 @@ MonoBehaviour:
   targetPriority: 0
   skillRange: 10
   damageMultiplier: 1
+  animationInfo:
+    animName: 
+    isLoop: 0
+    preAnim: 
+    loopAnim: skill2_loop
+    endAnim: skill2_end
+    loopDuration: 2

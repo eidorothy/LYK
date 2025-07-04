@@ -87,8 +87,8 @@ public class BattleTestManager : MonoBehaviour
 
     private IBattleUnit CreateCookie(CookieData cookieData, string uniqueName)
     {
-        GameObject cookieObject = new GameObject(uniqueName);
-        var cookie = cookieObject.AddComponent<Cookie>();
+        GameObject cookieObject = Object.Instantiate(cookieData.prefab);
+        var cookie = cookieObject.GetOrAddComponent<Cookie>();
         cookie.SetCookieData(cookieData);
         return cookie;
     }

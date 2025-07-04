@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4892347684830050714}
   - component: {fileID: 7348077561944256686}
-  - component: {fileID: -1931657878251633315}
+  - component: {fileID: 5620201701720557890}
   m_Layer: 0
   m_Name: BraveCookie
   m_TagString: Untagged
@@ -168,8 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cookieData: {fileID: 11400000, guid: e3548b5d48cdfb640b352521f7062bb2, type: 2}
-  _animController: {fileID: -1931657878251633315}
---- !u!114 &-1931657878251633315
+--- !u!114 &5620201701720557890
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,7 +177,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1017960423608261849}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9a97bff50394cd4b9f1b14c351f441a, type: 3}
+  m_Script: {fileID: 11500000, guid: 274ab5b559ea66642b8e6b6b0ebbd365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _skeletonAnim: {fileID: 80831564071483742}

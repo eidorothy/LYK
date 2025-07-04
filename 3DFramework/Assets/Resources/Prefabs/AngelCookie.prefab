@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 551576270132363865}
   - component: {fileID: 5562166676004030801}
-  - component: {fileID: 6369253217050630196}
+  - component: {fileID: 4652443111212037727}
   m_Layer: 0
   m_Name: AngelCookie
   m_TagString: Untagged
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cookieData: {fileID: 11400000, guid: 094b099416cddf64eaf820160154313c, type: 2}
---- !u!114 &6369253217050630196
+--- !u!114 &4652443111212037727
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,10 +56,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1101025030228033768}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9a97bff50394cd4b9f1b14c351f441a, type: 3}
+  m_Script: {fileID: 11500000, guid: 274ab5b559ea66642b8e6b6b0ebbd365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonAnim: {fileID: 9061931332488669724}
 --- !u!1 &6664033877194042756
 GameObject:
   m_ObjectHideFlags: 0

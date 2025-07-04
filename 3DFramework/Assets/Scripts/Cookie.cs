@@ -8,10 +8,19 @@ public class Cookie : MonoBehaviour, IBattleUnit
 {
     [SerializeField]
     private CookieData cookieData;
+    public CookieAnimController animController;
+
+    private bool isPerformingAction = false;
+
+    public CookieData CData => cookieData;
 
     public string UnitID => cookieData.cookieID;
     public string DisplayName => cookieData.displayName;
-    public Vector3 Position { get; set; }
+    public Vector3 Position
+    {
+        get { return transform.position; }
+        set { transform.position = value; }
+    }
 
     public int CurrentHP { get; set; }
     public int MaxHP => cookieData.baseHP;
@@ -34,10 +43,22 @@ public class Cookie : MonoBehaviour, IBattleUnit
 
     public bool IsAlive => CurrentHP > 0;
 
+    // 디버프 정보 - 클래스
+    //public DebuffInfo currentDebuff;
+    // 내부에는 디버프 타입, 디버프 초, 타입별 디버프 효과(어떤 스탯 감소, 스턴,,,,,)
+
     public Action<IBattleUnit> OnDead { get; set; }
     public Action<IBattleUnit, int, bool> OnDamaged { get; set; }
     public Action<IBattleUnit, IBattleUnit, int, bool> OnAttack { get; set; }
     public Action<IBattleUnit, SkillData> OnSkillUsed { get; set; }
+
+    private void Awake()
+    {
+        if (animController == null)
+        {
+            animController = gameObject.GetOrAddComponent<CookieAnimController>();
+        }
+    }
 
     public void Initialize()
     {
@@ -45,7 +66,9 @@ public class Cookie : MonoBehaviour, IBattleUnit
         AttackCurCooltime = 0f;
         SkillCurCooltime = SkillData.cooltime;
         IsMoving = false;
-        //Position = transform.position;
+        isPerformingAction = false;
+        Position = transform.position;
+        animController.PlayIdleAnimation(cookieData);
     }
 
     public void SetCookieData(CookieData data)
@@ -73,7 +96,20 @@ public class Cookie : MonoBehaviour, IBattleUnit
 
         OnDamaged?.Invoke(this, damage, isCritical);
 
-        if (IsAlive == false)
+        // 죽음 애니메이션
+        if (IsAlive)
+        {
+            /*
+            animController.PlayHitAnimation(cookieData, () =>
+            {
+                if (IsAlive)
+                    animController.PlayIdleAnimation(cookieData);
+                else
+                    animController.PlayDeadAnimation(cookieData, () => { OnDead?.Invoke(this); });
+            });
+            */
+        }
+        else
         {
             Debug.Log($"{DisplayName}이(가) 쓰려졌습니다!");
             OnDead?.Invoke(this);
@@ -90,9 +126,52 @@ public class Cookie : MonoBehaviour, IBattleUnit
         if (!IsAlive || target == null || !target.IsAlive)
             return false;
         
-        if (AttackCurCooltime > 0)
+        if (AttackCurCooltime > 0 || isPerformingAction)
             return false;
         
+        AttackCurCooltime = AttackCooltime;
+        isPerformingAction = true;
+
+        // 지금은 Complete 타이밍에 무조건 데미지가 들어가는데,
+        // 사양에 따라서 이런 구조 말고, N초 뒤에 코루틴으로 데미지를 처리한다 <- 이런 구조도 가능하다!
+        animController.PlayAttackAnimation(cookieData, () =>
+        {
+            PerformAttackDamage(target, battleRandom);
+            isPerformingAction = false;
+
+            // 공격 후 Idle로 돌아가기
+            if (IsAlive)
+                animController.PlayIdleAnimation(cookieData);
+        });
+
+        return true;
+    }
+
+    public bool TrySkillAttack(List<IBattleUnit> targets, System.Random battleRandom)
+    {
+        if (!IsAlive || targets == null || targets.Count == 0)
+            return false;
+        
+        if (SkillCurCooltime > 0 || isPerformingAction)     // 만약 Attack 애니메이션을 캔슬할 수 있다면 조건이 달라져야 한다!
+            return false;
+
+        SkillCurCooltime = SkillData.cooltime;     
+        isPerformingAction = true;
+
+        animController.PlaySkillAnimation(cookieData, () =>
+        {
+            PerformSkillDamage(targets, battleRandom);
+            isPerformingAction = false;
+
+            if (IsAlive)
+                animController.PlayIdleAnimation(cookieData);
+        });   
+        
+        return true;
+    }
+
+    private void PerformAttackDamage(IBattleUnit target, System.Random battleRandom)
+    {
         // 크리티컬 판정
         bool isCritical = battleRandom.NextDouble() < CriticalRate;
 
@@ -109,20 +188,12 @@ public class Cookie : MonoBehaviour, IBattleUnit
         Debug.Log($"{DisplayName}이(가) {target.DisplayName} 공격! 데미지: {finalDamage}{criText} (적 HP: {target.CurrentHP}/{target.MaxHP})");
 
         target.TakeDamage(finalDamage, isCritical);
-        AttackCurCooltime = AttackCooltime;
 
         OnAttack?.Invoke(this, target, finalDamage, isCritical);
-        return true;
     }
 
-    public bool TrySkillAttack(List<IBattleUnit> targets, System.Random battleRandom)
+    private void PerformSkillDamage(List<IBattleUnit> targets, System.Random battleRandom)
     {
-        if (!IsAlive || targets == null || targets.Count == 0)
-            return false;
-        
-        if (SkillCurCooltime > 0)
-            return false;
-
         foreach (var target in targets.Where(t => t.IsAlive))
         {
             if (SkillData.skillType == SkillType.Damage)
@@ -141,7 +212,7 @@ public class Cookie : MonoBehaviour, IBattleUnit
 
                 int currentHP = Mathf.Max(0, target.CurrentHP - finalDamage);
                 string criText = isCritical ? " [크리티컬!]" : "";
-                
+
                 Debug.Log($"{DisplayName}이(가) {target.DisplayName} 스킬 공격! 데미지: {finalDamage}{criText} (적 HP: {currentHP}/{target.MaxHP})");
 
                 target.TakeDamage(finalDamage, isCritical);
@@ -152,11 +223,12 @@ public class Cookie : MonoBehaviour, IBattleUnit
                 target.TakeHeal(healAmount);
                 Debug.Log($"{DisplayName}이(가) {target.DisplayName}을(를) 치유! 치유량: {healAmount} (아군 HP: {target.CurrentHP}/{target.MaxHP})");
             }
+            // 만약에 이 스킬이 디버프를 가지고 있음
+            // 타겟에다가 디버프 세팅
+            // target.SetDebuff(debuffInfo);
         }
-        
-        SkillCurCooltime = SkillData.cooltime;        
+
         OnSkillUsed?.Invoke(this, SkillData);
-        return true;
     }
 
     public void UpdateCooltime(float deltaTime)
